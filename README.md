@@ -1,2 +1,26 @@
 # URLAutomationMachine
-Process any URL and confirm whether the url is broken or not
+
+The machine we all need but the one we most likely do not deserve. The url checking program we all desire
+
+
+# Usage
+
+Usage can be found by typing ```urlChecker --help```
+
+Used by typing in:
+
+```urlChecker -f inputFile```
+
+Check the version of the program by typing in:
+
+```urlChecker -v```
+
+
+# Features
+
+- Uses regex to parse each line for a url
+- Processes each request and checks status code for successful attempt
+- Any url with a status code around ```200-299``` will pass automation
+- Urls with a status code of ```404``` or ```499``` will fail automation
+- Urls with a status code that is unknown ```403``` will fail automation but will be displayed in grey colouring
+- Flags are used to pass in filenames and describe the version of the file.
