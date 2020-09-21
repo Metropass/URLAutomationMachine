@@ -2,7 +2,7 @@ import argparse
 import re
 from colorama import Fore
 import urllib3
-
+import sys
 
 # Main function parses each line looking for urls to check and make requests
 # to check whether the url is broken or not
