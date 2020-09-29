@@ -10,21 +10,19 @@ from urlClass import urlAutomationMachine
 
 def checkURL(fileInput):
     input = urlAutomationMachine(fileInput)
-
     input.processUrl()
     
     
 def checkFile(fileInput):
    input = urlAutomationMachine(fileInput)
-
    input.processFile()
 
 
 def main(args):
     if (args.f):
-      checkFile(args.f)
+      threading.Thread(target=checkFile(args.f)).start()
     elif (args.u):
-      checkURL(args.u)
+      threading.Thread(target=checkURL(args.u)).start()
     elif (args.v):
       print("URLAutomationMachine Ver 1.1")
     else:
