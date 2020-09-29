@@ -1,5 +1,4 @@
 import argparse
-import threading
 from urlClass import urlAutomationMachine
 
 # Main function parses each line looking for urls to check and make requests
@@ -11,28 +10,30 @@ from urlClass import urlAutomationMachine
 
 def checkURL(fileInput):
     input = urlAutomationMachine(fileInput)
+
     input.processUrl()
-
-
+    
+    
 def checkFile(fileInput):
    input = urlAutomationMachine(fileInput)
+
    input.processFile()
 
 
 def main(args):
     if (args.f):
-      threading.Thread(target=checkFile(args.f)).start()
+      checkFile(args.f)
     elif (args.u):
-      threading.Thread(target=checkURL(args.u)).start()
+      checkURL(args.u)
     elif (args.v):
       print("URLAutomationMachine Ver 1.1")
     else:
       print("This program has two arguments, one for inputting the file, the second one displays the current version of the program")
-      print("Usage: urlChecker [-f] inputFile: The input file to be processed")
+      print("Usage: urlChecker [-f] inputFile: The input file to be processed")   
       print("Usage: urlChecker [-v]: Displays current version of the program")
       print("Usage: urlChecker [-u] inputUrl: Checks URL to see if it works or not")
 
-
+   
 if __name__ == "__main__":
 
    parse = argparse.ArgumentParser(description="Checks the file input for any broken HTML urls")
