@@ -1,4 +1,5 @@
 import threading
+import sys
 import argparse
 from urlClass import urlAutomationMachine
 
@@ -21,9 +22,17 @@ def checkFile(fileInput):
 
 def main(args):
     if (args.f):
-      threading.Thread(target=checkFile(args.f)).start()
+      try:
+        threading.Thread(target=checkFile(args.f)).start()
+      except:
+        sys.exit(1)
+      sys.exit(0)
     elif (args.u):
-      threading.Thread(target=checkURL(args.u)).start()
+      try:
+        threading.Thread(target=checkURL(args.u)).start()
+      except:
+        sys.exit(1)
+      sys.exit(0)
     elif (args.v):
       print("URLAutomationMachine Ver 1.1")
     else:
