@@ -1,6 +1,6 @@
 import urllib3
 import re
-from colorama import Fore, init
+from colorama import Fore
 
 # Class urlAutomationMachine
 # Defines a urlAutomationMachine object which initiates the request in order to determine the status
@@ -9,10 +9,9 @@ from colorama import Fore, init
 
 class urlAutomationMachine:
 
-    def __init__(self, input, isJson=False):
+    def __init__(self, input):
         self.input = input
         self.listOfUrls = []
-        self.isJson = isJson
         self.http = urllib3.PoolManager()
 
 
@@ -29,28 +28,18 @@ class urlAutomationMachine:
 
     
     def makeRequest(self, url):
-        init()
         try:
-            r = self.http.request('HEAD', url) 
-            self.printOutput(r, url) 
-        except urllib3.exceptions.MaxRetryError: # At this point, the connection attempt timed out and therfore, the url cannot be reached, so in this case, we skip the url entirely.
-           pass       
-    
-
-    def printOutput(self, r, url):
-        if self.isJson:
-            jsonURL = {"url": url, "status_code": r.status}
-            if (r.status == 200):
-                print(Fore.GREEN + f"[SUCCESS]: {jsonURL} passes automation. This url is working properly!" )
-            elif (r.status == 400 or r.status == 404):
-                print(Fore.RED + f"[FAILURE]: {jsonURL} fails automation. This url is broken unfortunately!")
-            else:
-                print(Fore.WHITE + f"[UNKNOWN] {jsonURL} gives off a warning. This url is fishy!")  
-        else:
+            r = self.http.request('HEAD', url)
             if (r.status == 200):
                 print(Fore.GREEN + f"[SUCCESS]: {url} passes automation. This url is working properly!" )
             elif (r.status == 400 or r.status == 404):
                 print(Fore.RED + f"[FAILURE]: {url} fails automation. This url is broken unfortunately!")
             else:
-                print(Fore.WHITE + f"[UNKNOWN] {url} gives off a warning. This url is fishy!")  
+                print(Fore.WHITE + f"[UNKNOWN] {url} gives off a warning. This url is fishy!") 
+        except urllib3.exceptions.MaxRetryError: # At this point, the connection attempt timed out and therfore, the url cannot be reached, so in this case, we skip the url entirely.
+           pass       
+           
+          
+
     
+ 
