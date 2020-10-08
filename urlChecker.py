@@ -10,14 +10,22 @@ from urlClass import urlAutomationMachine
 # Return: void
 
 
-def checkURL(fileInput):
+def checkURL(fileInput, isJson):
+  if isJson:
+    input = urlAutomationMachine(fileInput, isJson)
+    input.processUrl()
+  else:
     input = urlAutomationMachine(fileInput)
     input.processUrl()
     
     
-def checkFile(fileInput):
-   input = urlAutomationMachine(fileInput)
-   input.processFile()
+def checkFile(fileInput, isJson):
+   if isJson:
+    input = urlAutomationMachine(fileInput, isJson)
+    input.processFile()
+   else:
+    input = urlAutomationMachine(fileInput)
+    input.processFile()
 
 
 def main(args):
@@ -48,6 +56,7 @@ if __name__ == "__main__":
    parse.add_argument('-f', help="The input file to check")
    parse.add_argument('-v', action="store_true", help="Displays current version of program")
    parse.add_argument('-u', help="The URL to check")
+   parse.add_argument('-j', '--json', action="store_true", help="Displays output in JSON format")
 
    args = parse.parse_args()
 
