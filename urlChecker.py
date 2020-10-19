@@ -26,7 +26,6 @@ def checkURL(fileInput, isJson=False):
 def checkFile(fileInput, isJson=False, ignore=None):
    if isJson:
     input = urlAutomationMachine(fileInput, isJson, ignore)
-    ignore_list = input.ignore_urls(ignore)
     input.processFile(ignore_list)
    else:
     input = urlAutomationMachine(fileInput)

@@ -14,10 +14,14 @@ class urlAutomationMachine:
         self.listOfUrls = []
         self.isJson = isJson
         self.http = urllib3.PoolManager()
-        self.ignore = ignore
+        self.ignore_list = None
+        if not ignore:
+            ignore_file = open(ignore,'r')
+            ignore_list = re.findall(r'https?:[a-zA-Z0-9_.+-/#~]+', ignore.read())
 
 
-    def processUrl(self, ignore_list = None):
+
+    def processUrl(self):
         self.makeRequest(self.input)
 
     def processFile(self,ignore_list):
@@ -26,13 +30,9 @@ class urlAutomationMachine:
 
         for line in self.listOfUrls:
             line = line.strip()
-            if line not in ignore_list:
+            if line not in self.ignore_list:
                 self.makeRequest(line)
 
-    def ignore_urls(self):
-        ignore_file = open(self.ignore, 'r')
-        ignore_list = re.findall(r'https?:[a-zA-Z0-9_.+-/#~]+', ignore_file.read())
-        return ignore_list
 
 
     def makeRequest(self, url):
