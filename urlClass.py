@@ -16,17 +16,23 @@ class urlAutomationMachine:
         self.http = urllib3.PoolManager()
         self.ignore = ignore
 
-    def processUrl(self):
+
+    def processUrl(self, ignore_list = None):
         self.makeRequest(self.input)
 
-    def processFile(self):
+    def processFile(self,ignore_list):
         fileToCheck = open(self.input, 'r')
         self.listOfUrls = re.findall(r'https?:[a-zA-Z0-9_.+-/#~]+', fileToCheck.read())
 
         for line in self.listOfUrls:
             line = line.strip()
-            if line != ignore:
+            if line not in ignore_list:
                 self.makeRequest(line)
+
+    def ignore_urls(self):
+        ignore_file = open(self.ignore, 'r')
+        ignore_list = re.findall(r'https?:[a-zA-Z0-9_.+-/#~]+', ignore_file.read())
+        return ignore_list
 
 
     def makeRequest(self, url):

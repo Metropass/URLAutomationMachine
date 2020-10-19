@@ -23,13 +23,14 @@ def checkURL(fileInput, isJson=False):
 # Return: void
 
 
-def checkFile(fileInput, isJson=False, ignore):
+def checkFile(fileInput, isJson=False, ignore=None):
    if isJson:
     input = urlAutomationMachine(fileInput, isJson, ignore)
-    input.processFile()
+    ignore_list = input.ignore_urls(ignore)
+    input.processFile(ignore_list)
    else:
     input = urlAutomationMachine(fileInput)
-    input.processFile()
+    input.processFile(ignore_list)
 
 
 # Main function parses each line looking for urls to check and make requests
