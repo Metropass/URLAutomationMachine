@@ -26,10 +26,10 @@ def checkURL(fileInput, isJson=False):
 def checkFile(fileInput, isJson=False, ignore=None):
    if isJson:
     input = urlAutomationMachine(fileInput, isJson, ignore)
-    input.processFile(ignore_list)
+    input.processFile()
    else:
-    input = urlAutomationMachine(fileInput)
-    input.processFile(ignore_list)
+    input = urlAutomationMachine(fileInput,False,ignore)
+    input.processFile()
 
 
 # Main function parses each line looking for urls to check and make requests

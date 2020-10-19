@@ -24,7 +24,7 @@ class urlAutomationMachine:
     def processUrl(self):
         self.makeRequest(self.input)
 
-    def processFile(self,ignore_list):
+    def processFile(self):
         fileToCheck = open(self.input, 'r')
         self.listOfUrls = re.findall(r'https?:[a-zA-Z0-9_.+-/#~]+', fileToCheck.read())
 
