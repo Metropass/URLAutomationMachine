@@ -15,9 +15,9 @@ class urlAutomationMachine:
         self.isJson = isJson
         self.http = urllib3.PoolManager()
         self.ignore_list = None
-        if not ignore:
+        if ignore is not None:
             ignore_file = open(ignore,'r')
-            ignore_list = re.findall(r'https?:[a-zA-Z0-9_.+-/#~]+', ignore.read())
+            ignore_list = re.findall(r'https?:[a-zA-Z0-9_.+-/#~]+', ignore_file.read())
 
 
 
