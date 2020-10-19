@@ -9,12 +9,12 @@ from colorama import Fore, init
 
 class urlAutomationMachine:
 
-    def __init__(self, input, isJson=False):
+    def __init__(self, input, isJson=False, ignore=None):
         self.input = input
         self.listOfUrls = []
         self.isJson = isJson
         self.http = urllib3.PoolManager()
-
+        self.ignore = ignore
 
     def processUrl(self):
         self.makeRequest(self.input)
@@ -25,17 +25,18 @@ class urlAutomationMachine:
 
         for line in self.listOfUrls:
             line = line.strip()
-            self.makeRequest(line)
+            if line != ignore:
+                self.makeRequest(line)
 
-    
+
     def makeRequest(self, url):
         init()
         try:
-            r = self.http.request('HEAD', url) 
-            self.printOutput(r, url) 
+            r = self.http.request('HEAD', url)
+            self.printOutput(r, url)
         except urllib3.exceptions.MaxRetryError: # At this point, the connection attempt timed out and therfore, the url cannot be reached, so in this case, we skip the url entirely.
-           pass       
-    
+           pass
+
 
     def printOutput(self, r, url):
         if self.isJson:
@@ -45,12 +46,11 @@ class urlAutomationMachine:
             elif (r.status == 400 or r.status == 404):
                 print(Fore.RED + f"[FAILURE]: {jsonURL} fails automation. This url is broken unfortunately!")
             else:
-                print(Fore.WHITE + f"[UNKNOWN] {jsonURL} gives off a warning. This url is fishy!")  
+                print(Fore.WHITE + f"[UNKNOWN] {jsonURL} gives off a warning. This url is fishy!")
         else:
             if (r.status == 200):
                 print(Fore.GREEN + f"[SUCCESS]: {url} passes automation. This url is working properly!" )
             elif (r.status == 400 or r.status == 404):
                 print(Fore.RED + f"[FAILURE]: {url} fails automation. This url is broken unfortunately!")
             else:
-                print(Fore.WHITE + f"[UNKNOWN] {url} gives off a warning. This url is fishy!")  
-    
+                print(Fore.WHITE + f"[UNKNOWN] {url} gives off a warning. This url is fishy!")

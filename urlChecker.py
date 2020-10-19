@@ -3,10 +3,10 @@ import sys
 import argparse
 from urlClass import urlAutomationMachine
 
-# checkURL function parses a url and make a request to check whether the url is broken or not. 
+# checkURL function parses a url and make a request to check whether the url is broken or not.
 # Displays output based on -j argument
 # Params: inputFile, isJson
-# Return: void  
+# Return: void
 
 
 def checkURL(fileInput, isJson=False):
@@ -16,16 +16,16 @@ def checkURL(fileInput, isJson=False):
   else:
     input = urlAutomationMachine(fileInput)
     input.processUrl()
-    
+
 # checkFile function parses each line looking for urls to check and make requests
 # to check whether the url is broken or not. Displays output based on -j argument
 # Params: inputFile, isJson
-# Return: void   
+# Return: void
 
 
-def checkFile(fileInput, isJson=False):
+def checkFile(fileInput, isJson=False, ignore):
    if isJson:
-    input = urlAutomationMachine(fileInput, isJson)
+    input = urlAutomationMachine(fileInput, isJson, ignore)
     input.processFile()
    else:
     input = urlAutomationMachine(fileInput)
@@ -42,7 +42,7 @@ def checkFile(fileInput, isJson=False):
 def main(args):
     if (args.f):
       try:
-        threading.Thread(target=checkFile(args.f, args.j)).start()
+        threading.Thread(target=checkFile(args.f, args.j, args.i)).start()
       except:
         sys.stderr.write("No URLS are good, exiting")
         sys.exit(1)
@@ -58,12 +58,13 @@ def main(args):
       print("URLAutomationMachine Ver 2.0")
     else:
       print("This program has two arguments, one for inputting the file, the second one displays the current version of the program")
-      print("Usage: urlChecker [-f] inputFile: The input file to be processed")   
+      print("Usage: urlChecker [-f] inputFile: The input file to be processed")
       print("Usage: urlChecker [-v]: Displays current version of the program")
       print("Usage: urlChecker [-u] inputUrl: Checks URL to see if it works or not")
       print("Usage: urlChecker [-j]: Displays result in JSON format")
+      print("Usage: urlChecker [-i]: Ignores the URL that's passed as an argument")
 
-   
+
 if __name__ == "__main__":
 
    parse = argparse.ArgumentParser(description="Checks the file input for any broken HTML urls")
@@ -71,7 +72,7 @@ if __name__ == "__main__":
    parse.add_argument('-v', action="store_true", help="Displays current version of program")
    parse.add_argument('-u', help="The URL to check")
    parse.add_argument('-j', action="store_true", help="Displays output in JSON format")
-
+   parse.add_argument('-i', help="Ignores any url that matches the argument")
    args = parse.parse_args()
 
    main(args)
